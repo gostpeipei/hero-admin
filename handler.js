@@ -99,10 +99,11 @@ module.exports = {
 	// 		})
 	// 	})
 	// }
-	//post 发送有文件的数据
+	//post 发送有文件的数据+
 	addInfo: function(req, res){
 		var form = new formidable.IncomingForm();
 
+		//更改保存路径
 		form.uploadDir = path.join(__dirname, 'public/img/')
 		form.keepExtensions = true;
 
@@ -110,7 +111,6 @@ module.exports = {
 			if(err){
 				throw err
 			}
-			//更改保存路径
 			Hero.getHerosData(function(err, data){
 				if(err){
 					throw err
@@ -165,25 +165,27 @@ module.exports = {
 				if(err){
 					throw err
 				}
-				res.end(template.compile(tplData)(hero))
+				res.end(template.compile(tplData)({hero: hero}))
 			})
 		})
 	},
 
 	//提交编辑
 	upload: function(req, res){
-
 		var form = new formidable.IncomingForm()
+
+		form.uploadDir = path.join(__dirname, 'public/img/')
+		form.keepExtensions = true;
+
 		form.parse(req, function(err, fields, files){
 			var id = fields.id - 0;
-			console.log(id)
 			Hero.getById(id, function(err, hero, index, data){
 				if(err){
 					throw err
 				}
-				console.log('suc')
 				hero.name = fields.name
 				hero.gender = fields.gender
+				hero.avatar = path.basename(files.avatar.path)
 				Hero.update(data, function(err){
 					if(err){
 						throw err

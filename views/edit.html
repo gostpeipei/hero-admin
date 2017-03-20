@@ -21,18 +21,19 @@
   <div class="container hero-list">
 
     <form class="form-horizontal" method="post" action="/upload" enctype="multipart/form-data">
-      <input type="hidden" name="id" value="{{ id }}">
+      <input type="hidden" name="id" value="{{ hero.id }}">
+      <input type="hidden" name="avatar" value="{{ hero.avatar }}">
       <div class="form-group">
         <label class="col-sm-2 control-label">英雄名称</label>
         <div class="col-sm-10">
-          <input type="text" class="form-control" name="name" value="{{ name }}">
+          <input type="text" class="form-control" name="name" value="{{ hero.name }}">
         </div>
       </div>
 
       <div class="form-group">
         <label class="col-sm-2 control-label">性别</label>
         <div class="col-sm-10">
-          {{ if gender === 'm' }}
+          {{ if hero.gender === 'm' }}
           <label class="radio-inline">
             <input type="radio" name="gender" value="m" checked> 男
           </label>
@@ -54,6 +55,7 @@
         <label class="col-sm-2 control-label">头像</label>
         <div class="col-sm-10">
           <input type="file" name="avatar">
+          <img src="/public/img/{{ hero.avatar }}" >
         </div>
       </div>
 
